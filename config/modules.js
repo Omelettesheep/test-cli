@@ -1,4 +1,4 @@
-'use strict';
+
 
 const fs = require('fs');
 const path = require('path');
@@ -33,8 +33,8 @@ function getAdditionalModulePaths(options = {}) {
   }
 
   // Allow the user set the `baseUrl` to `appSrc`.
-  if (path.relative(paths.appSrc, baseUrlResolved) === '') {
-    return [paths.appSrc];
+  if (path.relative(paths.appClient, baseUrlResolved) === '') {
+    return [paths.appClient];
   }
 
   // Otherwise, throw an error.
