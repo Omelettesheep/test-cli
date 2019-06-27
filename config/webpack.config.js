@@ -42,6 +42,9 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+const lessRegex = /\.(less)$/;
+//yangyi20 todo:引入less module
+const lessModuleRegex = /\.module\.(scss|sass)$/;
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -436,7 +439,7 @@ module.exports = function(webpackEnv) {
               sideEffects: true,
             },
             {
-                test: /\.less$/,
+                test: lessRegex,
                 exclude:[/node_modules/],
                 use: getStyleLoaders(
                     {
