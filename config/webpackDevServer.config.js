@@ -99,6 +99,16 @@ module.exports = function(proxy, allowedHost) {
       // it used the same host and port.
       // https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
       app.use(noopServiceWorkerMiddleware());
+      // mock的方式
+      app.get('/mock/user.json', function (req, res) {
+        res.json({
+            errno: 0,
+            data: {
+                userId: '1111111',
+                userName: 'yangyi20'
+            }
+        });
+      });
     },
   };
 };
