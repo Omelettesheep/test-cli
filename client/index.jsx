@@ -3,11 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.less';
 import Layout from './layout';
 import * as serviceWorker from './serviceWorker';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
 import reducer from './reducer'
+import mySaga from './saga';
 
-const store = createStore(reducer);
+const sagaMiddleware = createSagaMiddleware() // 创建saga中间件
+const store = createStore(reducer, applyMiddleware(sagaMiddleware));
+sagaMiddleware.run(mySaga)
 
 ReactDOM.render(
     <Provider store={store}>

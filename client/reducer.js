@@ -3,14 +3,18 @@ import CONSTACTIONS from '@constActions';
 const defaultState = {
     name: 'yangyi20',
     age: '18',
-    hobbies: ['swim', 'piano', 'badminton']
+    hobbies: ['swim', 'piano', 'badminton'],
+    list: []
 }
 
 export default (state = defaultState, action) => {
+    const newState = Object.assign({}, state);
     switch (action.type) {
         case CONSTACTIONS.NORMAL.SET_USER_NAME:
-            const newState = Object.assign({}, state);
             newState.name = action.data;
+            return newState;
+        case CONSTACTIONS.NORMAL.SET_TODOLIST:
+            newState.list = action.data.list;
             return newState;
         default:
             return state;
