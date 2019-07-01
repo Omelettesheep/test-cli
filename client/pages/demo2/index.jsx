@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from 'antd';
 import request from '@utils/request';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 import {getTodoList} from './actions';
 
@@ -10,8 +11,7 @@ class Demo2 extends React.Component {
         this.state = {};
     }
     componentDidMount() {
-        const action = getTodoList();
-        this.props.dispatch(action);
+        this.props.actions.getTodoList();
     }
 
     redirect = () => {
@@ -43,7 +43,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        dispatch: dispatch
+        actions: bindActionCreators({getTodoList}, dispatch)
     }
 }
 
