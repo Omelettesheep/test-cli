@@ -34,8 +34,9 @@ class Demo2 extends React.Component {
                 this is demo2
                 <div>
                     这是全局数据global.list
-                    {list.map(item => {
-                        return <div>{`${item['id']}-${item['name']}`}</div>
+                    {list.map((item,index) => {
+                        let key = `demo2-${index}`;
+                        return <div key={key}>{`${item['id']}-${item['name']}`}</div>
                     })}
                 </div>
                 <div>

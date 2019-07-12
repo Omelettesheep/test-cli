@@ -1,4 +1,4 @@
-import React from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 
 const defaultMapStateToProps = name => state => {
@@ -23,6 +23,9 @@ const redux = (mod, name) => {
     // if (!mod instanceof React.Component) {
     //     throw new Error('redux must wrap a ReactComponent');
     // }
+    mod.propTypes = Object.assign({
+        global: PropTypes.object
+    }, mod.propTypes);
 
     let s2p = mod.mapStateToProps || defaultMapStateToProps(name);
     let d2p = mod.mapDispatchToProps || defaultMapDispatchToProps;

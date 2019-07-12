@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'antd';
+import Loading from '@components/loading';
 import request from '@utils/request';
-import { connect } from 'react-redux'
 
 export default class Demo1 extends React.Component {
     constructor(props) {
@@ -25,7 +25,6 @@ export default class Demo1 extends React.Component {
     }
 
     handleUserChange = () => {
-        console.log(`当前时间 ${Date.now()}: yangyi20最美 debug 的数据是 this.props: `, this.props)
         this.props.dispatch({
             type: 'SET_USER_NAME',
             data: `yangyi${Math.floor(Math.random() * 100)}`
@@ -42,6 +41,7 @@ export default class Demo1 extends React.Component {
                 <div>带的参数是：{this.props.match.params.id}</div>
                 <div><Button type="primary" onClick={this.handleUserChange}>点击修改user</Button></div>
                 <div>{name}</div>
+                <Loading />
             </div>
         );
    }
