@@ -1,11 +1,10 @@
 import React from 'react';
 import { Route, BrowserRouter as Router } from 'react-router-dom'
 import {
-    // Demo1,
-    Home
+    Demo1,
+    Home,
+    Demo2
 } from './pages';
-import Demo1 from './pages/demo1';
-import Demo2 from './pages/demo2';
 
 class Layout extends React.Component {
     constructor(props) {

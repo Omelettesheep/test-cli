@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import request from '@utils/request';
 import { connect } from 'react-redux'
 
-class Demo1 extends React.Component {
+export default class Demo1 extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -25,6 +25,7 @@ class Demo1 extends React.Component {
     }
 
     handleUserChange = () => {
+        console.log(`当前时间 ${Date.now()}: yangyi20最美 debug 的数据是 this.props: `, this.props)
         this.props.dispatch({
             type: 'SET_USER_NAME',
             data: `yangyi${Math.floor(Math.random() * 100)}`
@@ -45,16 +46,3 @@ class Demo1 extends React.Component {
         );
    }
 }
-const mapStateToProps = (state) => {
-    return {
-        global: state.global
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        dispatch: dispatch
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Demo1)
