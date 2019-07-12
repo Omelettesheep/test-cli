@@ -43,7 +43,6 @@ const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 const lessRegex = /\.(less)$/;
-//yangyi20 todo:引入less module
 const lessModuleRegex = /\.module\.(scss|sass)$/;
 
 // This is the production and development configuration.

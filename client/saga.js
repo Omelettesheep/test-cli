@@ -1,21 +1,76 @@
 import CONSTACTIONS from '@constActions';
 import { call, put, takeEvery } from 'redux-saga/effects'
 import request from '@utils/request'
+import { forEach } from 'lodash';
 
-function* getTodoList(action) {
+export function* ajaxSaga(action) {
+    if (!action.__use_default) {
+        return;
+    }
     try {
-        let url = 'https://www.easy-mock.com/mock/5d14a54e94d3053851e1023b/v1/getTodoList'
-        const resp = yield call(request.get, url, action.payload);
-        yield put({ type: CONSTACTIONS.NORMAL.SET_TODOLIST, data: resp.data });
-    } catch (e) {
-        throw Error(e);
+        if (!action.type) {
+            throw Error('need type');
+        }
+        let method = request.get;
+        if (action.method === 'POST') {
+            method = request.post;
+        }
+        const resp = yield call(method, action.url, action.data);
+        if (+resp.errno !== 0) {
+            yield put({
+                type: 'FETCH_FAIL',
+                action: action
+            });
+        } else {
+            let data = resp.data || resp.ret;
+            if (action.adapter) {
+                data = action.adapter(data);
+            }
+            let nextAction = {
+                type: action.type + '__SET',
+                data: data,
+                key: action.key
+            };
+            forEach(action, (value, key) => {
+                // 灌入所有以__开头的key到reducer；
+                if (/^__/.test(key)) {
+                    nextAction[key] = value;
+                }
+            });
+            yield put(nextAction);
+        }
+    } catch (error) {
+        yield put({ type: 'FETCH_FAIL', error });
     }
 }
 
+// function *watch (type) {
+//     yield takeEvery(type, ajaxSaga);
+// }
 
-// generator 函数
-function* mySaga() {
-    yield takeEvery(CONSTACTIONS.API.GET_TODOLIST, getTodoList) // takeEvery捕捉每一个派发出来的action type类型为GET_INIT_LIST的时候，就会执行getInitList方法
+const watch = (type) => {
+    return function* () {
+        yield takeEvery(type, ajaxSaga);
+    }
 }
 
-export default mySaga;
+export function injectSaga(store, pages) {
+    pages.map(page => {
+        try {
+            var sagas = require(page + '/saga');
+            if(sagas) {
+                forEach(sagas, store.runSaga);
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            return false;
+        }
+    })
+    forEach(CONSTACTIONS.API, (k, v) => {
+        store.runSaga(watch(v))
+        // store.runSaga(watch.bind(this, v))
+    })
+}
+
+export default injectSaga;

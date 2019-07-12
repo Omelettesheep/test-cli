@@ -12,20 +12,36 @@ class Demo2 extends React.Component {
     }
     componentDidMount() {
         this.props.dispatch({
-            type: CONSTACTIONS.API.GET_TODOLIST
+            type: CONSTACTIONS.API.GET_TODOLIST,
+            url: 'https://www.easy-mock.com/mock/5d14a54e94d3053851e1023b/v1/getTodoList',
+            method: 'GET',
+            __use_default: true
+        })
+
+        this.props.dispatch({
+            type: CONSTACTIONS.API.GET_PAGE_NAME,
+            method: 'GET',
         })
     }
 
     render() {
-        const {params={}} = this.props;
-        const { list } = params;
+        const { global={} } = this.props;
+        const { self={} } = this.props;
+        const { list } = global;
         return (
             <div>
                 <Link to="/">home</Link>
                 this is demo2
-                {list.map(item => {
-                    return <div>{`${item['id']}-${item['name']}`}</div>
-                })}
+                <div>
+                    这是全局数据global.list
+                    {list.map(item => {
+                        return <div>{`${item['id']}-${item['name']}`}</div>
+                    })}
+                </div>
+                <div>
+                    这是局部数据self.name
+                    {self.name}
+                </div>
             </div>
         );
     }
@@ -33,7 +49,8 @@ class Demo2 extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        params: state
+        global: state.global,
+        self: state['./pages/demo2']
     }
 }
 const mapDispatchToProps = (dispatch) => {

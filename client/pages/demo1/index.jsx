@@ -32,8 +32,8 @@ class Demo1 extends React.Component {
     }
 
     render() {
-        const {params={}} = this.props;
-        const { name } = params;
+        const { global={} } = this.props;
+        const { name } = global;
         return (
             <div>
                 <Button type="primary" onClick={this.redirect}>点击跳转到首页</Button>
@@ -47,7 +47,7 @@ class Demo1 extends React.Component {
 }
 const mapStateToProps = (state) => {
     return {
-        params: state
+        global: state.global
     }
 }
 
